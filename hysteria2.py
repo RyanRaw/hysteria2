@@ -663,14 +663,21 @@ iptables -t nat -D PREROUTING -i {interface_name} -p udp --dport {first_port}:{l
                 subprocess.run(f'echo {shlex.quote(hy2_v2ray)} | qrencode -s 1 -m 1 -t ANSI256 -o -', shell=True, executable="/bin/bash")
                 print(f"\n\n\033[91m您的hy2链接为: {hy2_v2ray}\n请使用v2ray/nekobox/v2rayNG/nekoray软件导入\033[m\n\n")
                 hy2_url_scheme.write_text(f"您的 v2ray hy2配置链接为：{hy2_v2ray}\n")
-                print("正在下载 clash,sing-box,surge 配置文件到/etc/hy2config/clash.yaml")
-                hy2_v2ray_url = urllib.parse.quote(hy2_v2ray)
-                url_rule = "&ua=&selectedRules=%22balanced%22&customRules=%5B%5D"
-                # 修复：使用 subprocess 列表形式避免命令注入
-                subprocess.run(["curl", "-o", "/etc/hy2config/clash.yaml", f"https://sub.baibaicat.site/clash?config={hy2_v2ray_url}{url_rule}"])
-                subprocess.run(["curl", "-o", "/etc/hy2config/sing-box.yaml", f"https://sub.baibaicat.site/singbox?config={hy2_v2ray_url}{url_rule}"])
-                subprocess.run(["curl", "-o", "/etc/hy2config/surge.yaml", f"https://sub.baibaicat.site/surge?config={hy2_v2ray_url}{url_rule}"])
-                print("\033[91m \nclash,sing-box,surge配置文件已保存到 /etc/hy2config/ 目录下 ！！\n\n \033[m")
+                print("是否需要下载clash/singbox/surge订阅链接生成的模板文件用于导入软件，需要调用到外部链接（您的订阅信息不会被泄露）")
+                choice_3 = input("请输入您的选项（请输入 y/n ）；")
+                if choice_3 == "y":
+                    print("正在下载 clash,sing-box,surge 配置文件到/etc/hy2config/clash.yaml")
+                    hy2_v2ray_url = urllib.parse.quote(hy2_v2ray)
+                    url_rule = "&ua=&selectedRules=%5B%22Location%3ACN%22%2C%22Private%22%2C%22Non-China%22%2C%22Github%22%2C%22Google%22%2C%22Youtube%22%2C%22AI+Services%22%2C%22Telegram%22%2C%22Ad+Block%22%5D&customRules=%5B%5D&include_auto_select=false"
+                    # 修复：使用 subprocess 列表形式避免命令注入
+                    subprocess.run(["curl", "-o", "/etc/hy2config/clash.yaml", f"https://sub.baibaicat.site/clash?config={hy2_v2ray_url}{url_rule}"])
+                    subprocess.run(["curl", "-o", "/etc/hy2config/sing-box.yaml", f"https://sub.baibaicat.site/singbox?config={hy2_v2ray_url}{url_rule}"])
+                    subprocess.run(["curl", "-o", "/etc/hy2config/surge.yaml", f"https://sub.baibaicat.site/surge?config={hy2_v2ray_url}{url_rule}"])
+                    print("\033[91m \nclash,sing-box,surge配置文件已保存到 /etc/hy2config/ 目录下 ！！\n\n \033[m")
+                elif choice_3 == "n":
+                    print("跳过生成订阅链接")
+                else:
+                    print("跳过生成订阅链接")
                 os.system("systemctl enable --now hysteria-server.service")
                 os.system("systemctl restart hysteria-server.service")
 
