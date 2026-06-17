@@ -664,7 +664,7 @@ iptables -t nat -D PREROUTING -i {interface_name} -p udp --dport {first_port}:{l
                 print(f"\n\n\033[91m您的hy2链接为: {hy2_v2ray}\n请使用v2ray/nekobox/v2rayNG/nekoray软件导入\033[m\n\n")
                 hy2_url_scheme.write_text(f"您的 v2ray hy2配置链接为：{hy2_v2ray}\n")
                 print("是否需要下载clash/singbox/surge订阅链接生成的模板文件用于导入软件，需要调用到外部链接（您的订阅信息不会被泄露）")
-                choice_3 = input("请输入您的选项（请输入 y/n ）；")
+                choice_3 = input("请输入您的选项（请输入 y/n ）:")
                 if choice_3 == "y":
                     print("正在下载 clash,sing-box,surge 配置文件到/etc/hy2config/clash.yaml")
                     hy2_v2ray_url = urllib.parse.quote(hy2_v2ray)
